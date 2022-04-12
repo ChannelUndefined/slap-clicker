@@ -41,9 +41,92 @@
                 <td id="amount"><span id="wills">0</span></td>
             </tr>
         </table>
+
+        <table class="shopButton" onclick="buyRobot()">
+            <tr>
+                <td id="image"><img src="images/robot.png"></td>
+                <td id="nameAndCost">
+                    <p>Slap Robot</p>
+                    <p><span id="robotcost">1250</span></p>
+                </td>
+                <td id="amount"><span id="robots">0</span></td>
+            </tr>
+        </table>
+
+        <table class="shopButton" onclick="buyRoom()">
+            <tr>
+                <td id="image"><img src="images/room.png"></td>
+                <td id="nameAndCost">
+                    <p>Slap Room</p>
+                    <p><span id="roomcost">5000</span></p>
+                </td>
+                <td id="amount"><span id="rooms">0</span></td>
+            </tr>
+        </table>
+
+        <table class="shopButton" onclick="buyDungeon()">
+            <tr>
+                <td id="image"><img src="images/dungeon.png"></td>
+                <td id="nameAndCost">
+                    <p>Dungeon</p>
+                    <p><span id="dungeoncost">10000</span></p>
+                </td>
+                <td id="amount"><span id="dungeons">0</span></td>
+            </tr>
+        </table>
+
+        <table class="shopButton" onclick="buyTemple()">
+            <tr>
+                <td id="image"><img src="images/temple.png"></td>
+                <td id="nameAndCost">
+                    <p>Temple</p>
+                    <p><span id="templecost">50000</span></p>
+                </td>
+                <td id="amount"><span id="temples">0</span></td>
+            </tr>
+        </table>
+
+        <table class="shopButton" onclick="buyFemurBreaker()">
+            <tr>
+                <td id="image"><img src="images/femurbreaker.png"></td>
+                <td id="nameAndCost">
+                    <p>Femur Breaker</p>
+                    <p><span id="femurbreakercost">100000</span></p>
+                </td>
+                <td id="amount"><span id="femurbreakers">0</span></td>
+            </tr>
+        </table>
+
+        <table class="shopButton" onclick="buySCP()">
+            <tr>
+                <td id="image"><img src="images/scp.png"></td>
+                <td id="nameAndCost">
+                    <p>SCP-6281</p>
+                    <p><span id="scpcost">1000000</span></p>
+                </td>
+                <td id="amount"><span id="scps">0</span></td>
+            </tr>
+        </table>
     </div>
 
     <script>
+        // Slap Clicker v1.3
+
+        // Possible purchases:
+        /*
+        Hand - 15 slaps
+        Will Smith - 100 slaps
+        Slapping Robot - 1,250 slaps
+        Slap Room - 5,000 slaps
+        Dungeon - 10,000 slaps
+        Temple - 50,000
+        Femur Breaker - 100,000
+        SCP-6281 - 1,000,000
+        */
+
+
+
+
         // Slap count
         var slaps = 50000;
         var slapPower = 2;
@@ -55,6 +138,30 @@
         // Will Smith vars
         var willCost = 115;
         var wills = 0;
+
+        // Robot vars
+        var robotCost = 1250;
+        var robots = 0;
+
+        // Slap room
+        var roomCost = 5000;
+        var rooms = 0;
+
+        // Dungeon
+        var dungeonCost = 10000;
+        var dungeons = 0;
+
+        // Temple
+        var templeCost = 50000;
+        var temples = 0;
+
+        // Femur Breaker
+        var femurbreakerCost = 100000;
+        var femurbreakers = 0;
+
+        // SCP-6281
+        var scpCost = 1000000;
+        var scps = 0;
 
         // Purchase hand function
         function buyHand() {
@@ -80,6 +187,90 @@
                 document.getElementById("slaps").innerHTML = slaps;
                 document.getElementById("willcost").innerHTML = willCost;
                 document.getElementById("wills").innerHTML = wills;
+                updateSlapsPerSecond()
+            }
+        }
+
+        // Purchase slap robot
+        function buyRobot() {
+            if (slaps >= robotCost) {
+                slaps = slaps - robotCost;
+                robots = robots + 1;
+                robotCost = Math.round(robotCost * 1.5);
+
+                document.getElementById("slaps").innerHTML = slaps;
+                document.getElementById("robotcost").innerHTML = robotCost;
+                document.getElementById("robots").innerHTML = robots;
+                updateSlapsPerSecond()
+            }
+        }
+
+        // Purchase slap room
+        function buyRoom() {
+            if (slaps >= roomCost) {
+                slaps = slaps - roomCost;
+                rooms = rooms + 1;
+                roomCost = Math.round(roomCost * 1.5);
+
+                document.getElementById("slaps").innerHTML = slaps;
+                document.getElementById("roomcost").innerHTML = roomCost;
+                document.getElementById("rooms").innerHTML = rooms;
+                updateSlapsPerSecond()
+            }
+        }
+
+        // Purchase slap dungeon
+        function buyDungeon() {
+            if (slaps >= dungeonCost) {
+                slaps = slaps - dungeonCost;
+                dungeons = dungeons + 1;
+                dungeonCost = Math.round(dungeonCost * 1.5);
+
+                document.getElementById("slaps").innerHTML = slaps;
+                document.getElementById("dungeoncost").innerHTML = dungeonCost;
+                document.getElementById("dungeons").innerHTML = dungeons;
+                updateSlapsPerSecond()
+            }
+        }
+
+        // Purchase slap temple
+        function buyTemple() {
+            if (slaps >= templeCost) {
+                slaps = slaps - templeCost;
+                temples = temples + 1;
+                templeCost = Math.round(templeCost * 1.5);
+
+                document.getElementById("slaps").innerHTML = slaps;
+                document.getElementById("templecost").innerHTML = templeCost;
+                document.getElementById("temples").innerHTML = temples;
+                updateSlapsPerSecond()
+            }
+        }
+
+        // Purchase femur breaker
+        function buyFemurBreaker() {
+            if (slaps >= femurbreakerCost) {
+                slaps = slaps - femurbreakerCost;
+                femurbreakers = femurbreakers + 1;
+                femurbreakerCost = Math.round(femurbreakerCost * 1.5);
+
+                document.getElementById("slaps").innerHTML = slaps;
+                document.getElementById("femurbreakercost").innerHTML = femurbreakerCost;
+                document.getElementById("femurbreakers").innerHTML = femurbreakers;
+                updateSlapsPerSecond()
+            }
+        }
+
+        // Purchase SCP-6281
+        function buySCP() {
+            if (slaps >= scpCost) {
+                slaps = slaps - scpCost;
+                scps = scps + 1;
+                scpCost = Math.round(scpCost * 1.5);
+
+                document.getElementById("slaps").innerHTML = slaps;
+                document.getElementById("scpcost").innerHTML = scpCost;
+                document.getElementById("scps").innerHTML = scps;
                 updateSlapsPerSecond()
             }
         }
@@ -117,10 +308,23 @@
             var savedGame = JSON.parse(localStorage.getItem("gameSave"));
             if (typeof savedGame.slaps !== "undefined") slaps = savedGame.slaps;
             if (typeof savedGame.slapPower !== "undefined") slapPower = savedGame.slapPower;
+
             if (typeof savedGame.handCost !== "undefined") handCost = savedGame.handCost;
             if (typeof savedGame.hands !== "undefined") hands = savedGame.hands;
             if (typeof savedGame.willCost !== "undefined") willCost = savedGame.willCost;
             if (typeof savedGame.wills !== "undefined") wills = savedGame.wills;
+            if (typeof savedGame.robotCost !== "undefined") robotCost = savedGame.robotCost;
+            if (typeof savedGame.robots !== "undefined") robors = savedGame.robots;
+            if (typeof savedGame.roomCost !== "undefined") roomCost = savedGame.roomCost;
+            if (typeof savedGame.rooms !== "undefined") rooms = savedGame.rooms;
+            if (typeof savedGame.dungeonCost !== "undefined") dungeonCost = savedGame.dungeonCost;
+            if (typeof savedGame.dungeons !== "undefined") dungeons = savedGame.dungeons;
+            if (typeof savedGame.templeCost !== "undefined") templeCost = savedGame.templeCost;
+            if (typeof savedGame.temples !== "undefined") temples = savedGame.temples;
+            if (typeof savedGame.femurbreakerCost !== "undefined") femurbreakerCost = savedGame.femurbreakerCost;
+            if (typeof savedGame.femurbreakers !== "undefined") femurbreakers = savedGame.femurbreakers;
+            if (typeof savedGame.scpCost !== "undefined") scpCost = savedGame.scpCost;
+            if (typeof savedGame.scps !== "undefined") scps = savedGame.scps;
         }
 
         function saveGame() {
@@ -131,6 +335,18 @@
                 hands: hands,
                 willCost: willCost,
                 wills: wills,
+                robotCost: robotCost,
+                robots: robots,
+                roomCost: roomCost,
+                rooms: rooms,
+                dungeonCost: dungeonCost,
+                dungeons: dungeons,
+                templeCost: templeCost,
+                temples: temples,
+                femurbreakerCost: femurbreakerCost,
+                femurbreakers: femurbreakers,
+                scpCost: scpCost,
+                scps: scps,
             };
             localStorage.setItem("gameSave", JSON.stringify(gameSave));
         }
@@ -151,11 +367,48 @@
             } else if (slaps <= willCost) {
                 document.getElementById("wills").style.color = "red";
             }
+
+            if (slaps >= robotCost) {
+                document.getElementById("robots").style.color = "green"
+            } else if (slaps <= robotCost) {
+                document.getElementById("robots").style.color = "red";
+            }
+            if (slaps >= roomCost) {
+                document.getElementById("roomcost").style.color = "green"
+            } else if (slaps <= roomCost) {
+                document.getElementById("roomcost").style.color = "red";
+            }
+            if (slaps >= dungeonCost) {
+                document.getElementById("dungeons").style.color = "green"
+            } else if (slaps <= dungeonCost) {
+                document.getElementById("dungeons").style.color = "red";
+            }
+            if (slaps >= templeCost) {
+                document.getElementById("temples").style.color = "green"
+            } else if (slaps <= templeCost) {
+                document.getElementById("temples").style.color = "red";
+            }
+            if (slaps >= femurbreakerCost) {
+                document.getElementById("femurbreakers").style.color = "green"
+            } else if (slaps <= femurbreakerCost) {
+                document.getElementById("femurbreakers").style.color = "red";
+            }
+            if (slaps >= scpCost) {
+                document.getElementById("scps").style.color = "green"
+            } else if (slaps <= scpCost) {
+                document.getElementById("scps").style.color = "red";
+            }
         },50) // Check item affordability every 50 ms
 
         setInterval(function() {
             slaps = slaps + hands * 1;
             slaps = slaps + wills * 5;
+            slaps = slaps + robots * 35;
+            slaps = slaps + rooms * 55;
+            slaps = slaps + dungeons * 95;
+            slaps = slaps + temples * 130;
+            slaps = slaps + femurbreakers * 200;
+            slaps = slaps + scps * 300;
             document.getElementById("slaps").innerHTML = slaps;
         }, 1000); // Auto slaps every 1 sec
 
