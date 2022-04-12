@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<head>
+    <title>Slap Clicker</title>
+</head>
+
+<body>
+    <p><span id="slaps">0</span>slaps</p>
+    <img src="./chrisrock.jpg" height="256" width="256" onclick="slapEvent(1)">
+
+    <button onclick="buyHand()">Hand [<span id="handcost">15</span>] -- <span id="handcount">0</span></button>
+
+    <script>
+        var slaps = 0;
+
+        var handCost = 15;
+        var hands = 0;
+
+        function buyHand() {
+            if (slaps >= handCost) {
+                slaps = slaps - handCost;
+                hands = hands + 1;
+                handCost = Math.round(handCost * 1.15);
+
+                document.getElementById("slaps").innerHTML = slaps;
+                document.getElementById("handcost").innerHTML = handCost;
+                document.getElementById("hands").innerHTML = hands;
+            }
+        }
+
+        function addSlaps(amount) {
+            slaps = slaps + amount;
+            document.getElementById("slaps").innerHTML = slaps;
+        }
+    </script>
+</body>
