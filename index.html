@@ -1,20 +1,62 @@
 <!DOCTYPE html>
 <head>
     <title>Slap Clicker</title>
+
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-    <p><span id="slaps">0</span>slaps</p>
-    <img src="./chrisrock.jpg" height="256" width="256" onclick="slapEvent(1)">
+    <div class="sectionLeft">
+        <center>
+            <div class="scoreContainer">
+                <span id="slaps">0</span> Slaps<br>
+                <span id="slapspersecond">0</span> Slaps Per Second
+            </div>
+            <br>
+            <div class="clickerContainer">
+                <img src="images/chrisrock.png" id="chrisrock" height="256" width="256" onclick="slapEvent(1)">
+            </div>
+    </center>
+    </div>
 
-    <button onclick="buyHand()">Hand [<span id="handcost">15</span>] -- <span id="handcount">0</span></button>
+    <div class="sectionRight">
+        <table class="shopButton" onclick="buyHand()">
+            <tr>
+                <td id="image"><img src="images/hand.png"></td>
+                <td id="nameAndCost">
+                    <p>Hand</p>
+                    <p><span id="handcost">15</span></p>
+                </td>
+                <td id="amount"><span id="hands">0</span></td>
+            </tr>
+        </table>
+
+        <table class="shopButton" onclick="buyWillSmith()">
+            <tr>
+                <td id="image"><img src="images/willsmith.png"></td>
+                <td id="nameAndCost">
+                    <p>Will Smith</p>
+                    <p><span id="willcost">100</span></p>
+                </td>
+                <td id="amount"><span id="wills">0</span></td>
+            </tr>
+        </table>
+    </div>
 
     <script>
-        var slaps = 0;
+        // Slap count
+        var slaps = 50000;
+        var slapPower = 2;
 
+        // Hand vars
         var handCost = 15;
         var hands = 0;
 
+        // Will Smith vars
+        var willCost = 115;
+        var wills = 0;
+
+        // Purchase hand function
         function buyHand() {
             if (slaps >= handCost) {
                 slaps = slaps - handCost;
@@ -24,12 +66,101 @@
                 document.getElementById("slaps").innerHTML = slaps;
                 document.getElementById("handcost").innerHTML = handCost;
                 document.getElementById("hands").innerHTML = hands;
+                updateSlapsPerSecond()
             }
         }
 
-        function addSlaps(amount) {
+        // Purchase Will Smith function
+        function buyWillSmith() {
+            if (slaps >= willCost) {
+                slaps = slaps - willCost;
+                wills = wills + 1;
+                willCost = Math.round(willCost * 1.5);
+
+                document.getElementById("slaps").innerHTML = slaps;
+                document.getElementById("willcost").innerHTML = willCost;
+                document.getElementById("wills").innerHTML = wills;
+                updateSlapsPerSecond()
+            }
+        }
+
+        function slapEvent(amount) {
             slaps = slaps + amount;
             document.getElementById("slaps").innerHTML = slaps;
+
+            /*
+            if (slaps >= handCost) {
+                document.getElementById("hands").style.color = "green"
+            } else if (slaps <= handCost) {
+                document.getElementById("hands").style.color = "red";
+            }
+
+            if (slaps >= willCost) {
+                document.getElementById("wills").style.color = "green"
+            } else if (slaps <= handCost) {
+                document.getElementById("wills").style.color = "red";
+            }
+            */
+
+            //update with slapped image for duration (currently under development, not implemented yet)
+            //document.getElementById("chrisrock").src = "images/chrisrockslapped.png"
+            //setTimeout(function(){ document.getElementById("chrisrock").src = "./chrisrock.png" }, 300)
         }
+
+        function updateSlapsPerSecond() {
+            slapsPerSecond = hands + wills * 5
+            document.getElementById("slapspersecond").innerHTML = slapsPerSecond;
+        }
+
+
+        function loadGame() {
+            var savedGame = JSON.parse(localStorage.getItem("gameSave"));
+            if (typeof savedGame.slaps !== "undefined") slaps = savedGame.slaps;
+            if (typeof savedGame.slapPower !== "undefined") slapPower = savedGame.slapPower;
+            if (typeof savedGame.handCost !== "undefined") handCost = savedGame.handCost;
+            if (typeof savedGame.hands !== "undefined") hands = savedGame.hands;
+            if (typeof savedGame.willCost !== "undefined") willCost = savedGame.willCost;
+            if (typeof savedGame.wills !== "undefined") wills = savedGame.wills;
+        }
+
+        function saveGame() {
+            var gameSave = {
+                slaps: slaps,
+                slapPower: slapPower,
+                handCost: handCost,
+                hands: hands,
+                willCost: willCost,
+                wills: wills,
+            };
+            localStorage.setItem("gameSave", JSON.stringify(gameSave));
+        }
+
+        window.onload = function() {
+            loadGame();
+        };
+
+        setInterval(function(){
+            if (slaps >= handCost) {
+                document.getElementById("hands").style.color = "green"
+            } else if (slaps <= handCost) {
+                document.getElementById("hands").style.color = "red";
+            }
+
+            if (slaps >= willCost) {
+                document.getElementById("wills").style.color = "green"
+            } else if (slaps <= willCost) {
+                document.getElementById("wills").style.color = "red";
+            }
+        },50) // Check item affordability every 50 ms
+
+        setInterval(function() {
+            slaps = slaps + hands * 1;
+            slaps = slaps + wills * 5;
+            document.getElementById("slaps").innerHTML = slaps;
+        }, 1000); // Auto slaps every 1 sec
+
+        setInterval(function(){
+            saveGame();
+        }, 30000) // Save game every 30 sec
     </script>
 </body>
