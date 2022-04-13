@@ -14,101 +14,10 @@
             </div>
             <br>
             <div class="clickerContainer">
-                <img src="images/chrisrock.png" id="chrisrock" height="256" width="256" onclick="slapEvent(1)">
+                <img src="images/chrisrock.png" id="chrisrock" height="256" width="256" onclick="slapEvent(slapPower)">
             </div>
     </center>
-    </div>
-
-    <div class="sectionRight">
-        <table class="shopButton" onclick="buyHand()">
-            <tr>
-                <td id="image"><img src="images/hand.png"></td>
-                <td id="nameAndCost">
-                    <p>Hand</p>
-                    <p><span id="handcost">15</span></p>
-                </td>
-                <td id="amount"><span id="hands">0</span></td>
-            </tr>
-        </table>
-
-        <table class="shopButton" onclick="buyWillSmith()">
-            <tr>
-                <td id="image"><img src="images/willsmith.png"></td>
-                <td id="nameAndCost">
-                    <p>Will Smith</p>
-                    <p><span id="willcost">100</span></p>
-                </td>
-                <td id="amount"><span id="wills">0</span></td>
-            </tr>
-        </table>
-
-        <table class="shopButton" onclick="buyRobot()">
-            <tr>
-                <td id="image"><img src="images/robot.png"></td>
-                <td id="nameAndCost">
-                    <p>Slap Robot</p>
-                    <p><span id="robotcost">1250</span></p>
-                </td>
-                <td id="amount"><span id="robots">0</span></td>
-            </tr>
-        </table>
-
-        <table class="shopButton" onclick="buyRoom()">
-            <tr>
-                <td id="image"><img src="images/room.png"></td>
-                <td id="nameAndCost">
-                    <p>Slap Room</p>
-                    <p><span id="roomcost">5000</span></p>
-                </td>
-                <td id="amount"><span id="rooms">0</span></td>
-            </tr>
-        </table>
-
-        <table class="shopButton" onclick="buyDungeon()">
-            <tr>
-                <td id="image"><img src="images/dungeon.png"></td>
-                <td id="nameAndCost">
-                    <p>Dungeon</p>
-                    <p><span id="dungeoncost">10000</span></p>
-                </td>
-                <td id="amount"><span id="dungeons">0</span></td>
-            </tr>
-        </table>
-
-        <table class="shopButton" onclick="buyTemple()">
-            <tr>
-                <td id="image"><img src="images/temple.png"></td>
-                <td id="nameAndCost">
-                    <p>Temple</p>
-                    <p><span id="templecost">50000</span></p>
-                </td>
-                <td id="amount"><span id="temples">0</span></td>
-            </tr>
-        </table>
-
-        <table class="shopButton" onclick="buyFemurBreaker()">
-            <tr>
-                <td id="image"><img src="images/femurbreaker.png"></td>
-                <td id="nameAndCost">
-                    <p>Femur Breaker</p>
-                    <p><span id="femurbreakercost">100000</span></p>
-                </td>
-                <td id="amount"><span id="femurbreakers">0</span></td>
-            </tr>
-        </table>
-
-        <table class="shopButton" onclick="buySCP()">
-            <tr>
-                <td id="image"><img src="images/scp.png"></td>
-                <td id="nameAndCost">
-                    <p>SCP-6281</p>
-                    <p><span id="scpcost">1000000</span></p>
-                </td>
-                <td id="amount"><span id="scps">0</span></td>
-            </tr>
-        </table>
-    </div>
-
+</div>
     <script>
         // Slap Clicker v1.3
 
@@ -129,7 +38,8 @@
 
         // Slap count
         var slaps = 50000;
-        var slapPower = 2;
+        var slapPower = 1;
+        var slapsPerSecond = 800000;
 
         // Hand vars
         var handCost = 15;
@@ -299,7 +209,19 @@
         }
 
         function updateSlapsPerSecond() {
-            slapsPerSecond = hands + wills * 5
+            slapsPerSecond = hands * 1 + wills * 15 + robots * 55 + rooms * 500 + dungeons * 750 + temples * 1500 + femurbreakers * 10000 + scps * 30000
+            /*
+            slapsPerSecond = slapsPerSecond + wills * 5
+            slapsPerSecond = slapsPerSecond + robots *35
+            slapsPerSecond = slapsPerSecond + rooms * 55
+            slapsPerSecond = slapsPerSecond + dungeons * 95
+            slapsPerSecond = slapsPerSecond + temples * 130
+            slapsPerSecond = slapsPerSecond + femurbreakers + 200
+            slapsPerSecond = slapsPerSecond + scps * 300
+            */
+            totalItems = hands + wills + robots + rooms + dungeons + temples + femurbreakers + scps
+            
+            slapPower = Math.round(totalItems * 1.5);
             document.getElementById("slapspersecond").innerHTML = slapsPerSecond;
         }
 
@@ -307,7 +229,10 @@
         function loadGame() {
             var savedGame = JSON.parse(localStorage.getItem("gameSave"));
             if (typeof savedGame.slaps !== "undefined") slaps = savedGame.slaps;
+            if (typeof savedGame.slapsPerSecond !== "undefined") slapsPerSecond = savedGame.slapsPerSecond;
             if (typeof savedGame.slapPower !== "undefined") slapPower = savedGame.slapPower;
+            
+            if (typeof savedGame.totalItems !== "undefined") totalItems = savedGame.totalItems;
 
             if (typeof savedGame.handCost !== "undefined") handCost = savedGame.handCost;
             if (typeof savedGame.hands !== "undefined") hands = savedGame.hands;
@@ -325,12 +250,32 @@
             if (typeof savedGame.femurbreakers !== "undefined") femurbreakers = savedGame.femurbreakers;
             if (typeof savedGame.scpCost !== "undefined") scpCost = savedGame.scpCost;
             if (typeof savedGame.scps !== "undefined") scps = savedGame.scps;
+            
+            document.getElementById("slapspersecond").innerHTML = slapsPerSecond;
+            document.getElementById("handCost").innerHTML = handCost;
+            document.getElementById("hands").innerHTML = hands;
+            document.getElementById("willcost").innerHTML = willCost;
+            document.getElementById("wills").innerHTML = wills;
+            document.getElementById("robotcost").innerHTML = robotCost;
+            document.getElementById("robots").innerHTML = robots;
+            document.getElementById("roomcost").innerHTML = roomCost;
+            document.getElementById("rooms").innerHTML = rooms;
+            document.getElementById("dungeoncost").innerHTML = dungeonCost;
+            document.getElementById("dungeons").innerHTML = dungeons;
+            document.getElementById("templecost").innerHTML = templeCost;
+            document.getElementById("temples").innerHTML = temples;
+            document.getElementById("femurbreakercost").innerHTML = femurbreakerCost;
+            document.getElementById("femurbreakers").innerHTML = femurbreakers;
+            document.getElementById("scpcost").innerHTML = scpCost;
+            document.getElementById("scps").innerHTML = scps;
         }
 
         function saveGame() {
             var gameSave = {
                 slaps: slaps,
+                slapsPerSecond: slapsPerSecond,
                 slapPower: slapPower,
+                totalItems: totalItems,
                 handCost: handCost,
                 hands: hands,
                 willCost: willCost,
@@ -374,9 +319,9 @@
                 document.getElementById("robots").style.color = "red";
             }
             if (slaps >= roomCost) {
-                document.getElementById("roomcost").style.color = "green"
+                document.getElementById("rooms").style.color = "green"
             } else if (slaps <= roomCost) {
-                document.getElementById("roomcost").style.color = "red";
+                document.getElementById("rooms").style.color = "red";
             }
             if (slaps >= dungeonCost) {
                 document.getElementById("dungeons").style.color = "green"
@@ -401,19 +346,101 @@
         },50) // Check item affordability every 50 ms
 
         setInterval(function() {
-            slaps = slaps + hands * 1;
-            slaps = slaps + wills * 5;
-            slaps = slaps + robots * 35;
-            slaps = slaps + rooms * 55;
-            slaps = slaps + dungeons * 95;
-            slaps = slaps + temples * 130;
-            slaps = slaps + femurbreakers * 200;
-            slaps = slaps + scps * 300;
+            slaps = slaps + Math.round(slapsPerSecond / 20)
             document.getElementById("slaps").innerHTML = slaps;
-        }, 1000); // Auto slaps every 1 sec
+        }, 50); // Auto slaps every 1 sec
 
         setInterval(function(){
             saveGame();
         }, 30000) // Save game every 30 sec
     </script>
+    <div class="sectionRight">
+        <table class="shopButton" onclick="buyHand()">
+            <tr>
+                <td id="image"><img src="images/hand.png"></td>
+                <td id="nameAndCost">
+                    <p>Hand</p>
+                    <p><span id="handcost">15</span></p>
+                </td>
+                <td id="amount"><span id="hands">0</span></td>
+            </tr>
+        </table>
+
+        <table class="shopButton" onclick="buyWillSmith()">
+            <tr>
+                <td id="image"><img src="images/willsmith.png"></td>
+                <td id="nameAndCost">
+                    <p>Will Smith</p>
+                    <p><span id="willcost">100</span></p>
+                </td>
+                <td id="amount"><span id="wills">0</span></td>
+            </tr>
+        </table>
+
+        <table class="shopButton" onclick="buyRobot()">
+            <tr>
+                <td id="image"><img src="images/robot.png"></td>
+                <td id="nameAndCost">
+                    <p>Slap Robot</p>
+                    <p><span id="robotcost">1250</span></p>
+                </td>
+                <td id="amount"><span id="robots">0</span></td>
+            </tr>
+        </table>
+
+        <table class="shopButton" onclick="buyRoom()">
+            <tr>
+                <td id="image"><img src="images/room.png"></td>
+                <td id="nameAndCost">
+                    <p>Slap Room</p>
+                    <p><span id="roomcost">5000</span></p>
+                </td>
+                <td id="amount"><span id="rooms">0</span></td>
+            </tr>
+        </table>
+
+        <table class="shopButton" onclick="buyDungeon()">
+            <tr>
+                <td id="image"><img src="images/dungeon.png"></td>
+                <td id="nameAndCost">
+                    <p>Dungeon</p>
+                    <p><span id="dungeoncost">10000</span></p>
+                </td>
+                <td id="amount"><span id="dungeons">0</span></td>
+            </tr>
+        </table>
+
+        <table class="shopButton" onclick="buyTemple()">
+            <tr>
+                <td id="image"><img src="images/temple.png"></td>
+                <td id="nameAndCost">
+                    <p>Temple</p>
+                    <p><span id="templecost">50000</span></p>
+                </td>
+                <td id="amount"><span id="temples">0</span></td>
+            </tr>
+        </table>
+
+        <table class="shopButton" onclick="buyFemurBreaker()">
+            <tr>
+                <td id="image"><img src="images/femurbreaker.png"></td>
+                <td id="nameAndCost">
+                    <p>Femur Breaker</p>
+                    <p><span id="femurbreakercost">100000</span></p>
+                </td>
+                <td id="amount"><span id="femurbreakers">0</span></td>
+            </tr>
+        </table>
+
+        <table class="shopButton" onclick="buySCP()">
+            <tr>
+                <td id="image"><img src="images/scp.png"></td>
+                <td id="nameAndCost">
+                    <p>SCP-6281</p>
+                    <p><span id="scpcost">1000000</span></p>
+                </td>
+                <td id="amount"><span id="scps">0</span></td>
+            </tr>
+        </table>
+    </div>
 </body>
