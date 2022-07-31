@@ -7,4 +7,4 @@ Following the dying trend relating to "The slap heard across the world", also kn
 It is a basic static web page which stores your progress in cookies. You can easily host this on Glitch or Replit.
 I initially created this as a meme game for playing during school.
  
- This is open source because it was low effort for me.
+ This is open source because it was low effort for me, and because I am no longer working on this. It is missing multiple images for different purchases.
